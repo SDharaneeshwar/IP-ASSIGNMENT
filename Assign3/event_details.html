@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Details</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Event Manager</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="events.php">Events</a></li>
+                <li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Event Details Content -->
+    <div class="container mt-5">
+        <?php
+        include('db.php');
+        $event_id = $_GET['id'];
+        $sql = "SELECT * FROM events WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $event_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $event = $result->fetch_assoc();
+        ?>
+        <h2><?php echo $event['title']; ?></h2>
+        <p><?php echo $event['description']; ?></p>
+        <p><strong>Date:</strong> <?php echo $event['date']; ?></p>
+        <p><strong>Time:</strong> <?php echo $event['time']; ?></p>
+        <p><strong>Location:</strong> <?php echo $event['location']; ?></p>
+        <p><strong>Price:</strong> $<?php echo $event['price']; ?></p>
+        <a href="book_event.php?event_id=<?php echo $event['id']; ?>" class="btn btn-primary">Book Ticket</a>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

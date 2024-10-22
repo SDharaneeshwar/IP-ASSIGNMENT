@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Products</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="addProduct.html">Add Product</a></li>
+                <li><a href="viewProducts.html">View Products</a></li>
+                <li><a href="searchProducts.html">Search Products</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Product List</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="productTableBody">
+                <!-- Product data will be dynamically inserted here -->
+            </tbody>
+        </table>
+    </main>
+    <footer>
+        <p>© 2024 Product Management. All rights reserved.</p>
+    </footer>
+    <script>
+        // Example JavaScript to dynamically populate the table (assuming you fetch the data from the server)
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('ProductServlet?action=list')
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('productTableBody');
+                    data.forEach(product => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${product.id}</td>
+                            <td>${product.name}</td>
+                            <td>${product.category}</td>
+                            <td>${product.price}</td>
+                            <td>${product.stock}</td>
+                            <td>
+                                <a href="ProductServlet?action=edit&id=${product.id}">Edit</a>
+                                <a href="ProductServlet?action=delete&id=${product.id}" onclick="return confirm('Are you sure?');">Delete</a>
+                            </td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                });
+        });
+    </script>
+</body>
+</html>
+
+

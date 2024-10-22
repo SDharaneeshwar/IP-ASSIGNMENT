@@ -1,0 +1,21 @@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    // Example: Handle form submissions or button clicks
+    $('form').on('submit', function(e) {
+        // Example: Form validation
+        var isValid = true;
+        $(this).find('input, textarea').each(function() {
+            if (!$(this).val()) {
+                isValid = false;
+                $(this).css('border-color', 'red');
+            }
+        });
+        
+        if (!isValid) {
+            e.preventDefault();  // Prevent form submission if invalid
+            alert('Please fill all the fields!');
+        }
+    });
+});
+</script>

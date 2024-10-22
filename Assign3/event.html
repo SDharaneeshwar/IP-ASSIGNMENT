@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Listings</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Event Manager</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="events.php">Events</a></li>
+                <li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Event Listing Content -->
+    <div class="container mt-5">
+        <h2>Upcoming Events</h2>
+        <!-- Filters -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <input type="date" class="form-control" placeholder="Filter by Date">
+            </div>
+            <div class="col-md-4">
+                <input type="text" class="form-control" placeholder="Filter by Location">
+            </div>
+            <div class="col-md-4">
+                <input type="text" class="form-control" placeholder="Filter by Type">
+            </div>
+        </div>
+        <div class="row">
+            <?php
+            // Fetch events from the database
+            include('db.php');
+            $sql = "SELECT * FROM events ORDER BY date";
+            $result = $conn->query($sql);
+            
+            while($event = $result->fetch_assoc()) {
+                echo '<div class="col-md-4">';
+                echo '<div class="card mb-4 shadow-sm">';
+                echo '<div class="card-body">';
+                echo "<h5 class='card-title'>" . $event['title'] . "</h5>";
+                echo "<p class='card-text'>" . $event['description'] . "</p>";
+                echo "<p class='card-text'><small class='text-muted'>Date: " . $event['date'] . " Time: " . $event['time'] . "</small></p>";
+                echo "<p class='card-text'><small class='text-muted'>Location: " . $event['location'] . " Price: $" . $event['price'] . "</small></p>";
+                echo "<a href='event_details.php?id=" . $event['id'] . "' class='btn btn-primary'>View Details</a>";
+                echo '</div>';
+                echo '</div>';
+                echo '</div>';
+            }
+            ?>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

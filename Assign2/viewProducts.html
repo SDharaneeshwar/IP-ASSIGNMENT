@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Products</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="ProductServlet?action=new">Add Product</a></li>
+                <li><a href="ProductServlet?action=list">View Products</a></li>
+                <li><a href="searchProducts.jsp">Search Products</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Product List</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%
+                    if (productList != null) {
+                        for (Product product : productList) {
+                %>
+                <tr>
+                    <td><%= product.getId() %></td>
+                    <td><%= product.getName() %></td>
+                    <td><%= product.getCategory() %></td>
+                    <td><%= product.getPrice() %></td>
+                    <td><%= product.getStock() %></td>
+                    <td>
+                        <a href="ProductServlet?action=edit&id=<%= product.getId() %>">Edit</a>
+                        <a href="ProductServlet?action=delete&id=<%= product.getId() %>" onclick="return confirm('Are you sure?');">Delete</a>
+                    </td>
+                </tr>
+                <%
+                        }
+                    }
+                %>
+            </tbody>
+        </table>
+    </main>
+    <footer>
+        <p>© 2024 Product Management. All rights reserved.</p>
+    </footer>
+</body>
+</html>
